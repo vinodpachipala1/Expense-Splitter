@@ -1,0 +1,61 @@
+CREATE TABLE users (
+  id SERIAL PRIMARY KEY,
+  name VARCHAR(100) NOT NULL,
+  username VARCHAR(50) UNIQUE NOT NULL,
+  email VARCHAR(150) UNIQUE NOT NULL,
+  phone VARCHAR(15) UNIQUE NOT NULL,
+  password VARCHAR(255) NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE groups (
+  id SERIAL PRIMARY KEY,
+  group_name VARCHAR(100) NOT NULL,
+  created_by INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  UNIQUE (group_name, created_by)
+);
+
+
+CREATE TABLE notifications (
+  id SERIAL PRIMARY KEY,
+  user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+  sent_from INTEGER REFERENCES users(id) ON DELETE SET NULL,
+  group_id INTEGER REFERENCES groups(id) ON DELETE CASCADE,
+  message TEXT NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+
+CREATE TABLE group_members (
+  id SERIAL PRIMARY KEY,
+  group_id INTEGER REFERENCES groups(id) ON DELETE CASCADE,
+  user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+  UNIQUE (group_id, user_id)
+);
+
+
+CREATE TABLE expenses (
+  id SERIAL PRIMARY KEY,
+  group_id INTEGER NOT NULL REFERENCES groups(id) ON DELETE CASCADE,
+  paid_by INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  name VARCHAR(100) NOT NULL,
+  description TEXT,
+  amount NUMERIC(10, 2) NOT NULL CHECK (amount > 0),
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  UNIQUE (group_id, name)
+);
+
+CREATE TABLE expenses_history (
+  id SERIAL PRIMARY KEY,
+  expense_id INTEGER NOT NULL UNIQUE,
+  name VARCHAR(100) NOT NULL,
+  group_id INTEGER NOT NULL REFERENCES groups(id) ON DELETE CASCADE,
+  paye_name TEXT NOT NULL,
+  names TEXT[] NOT NULL,
+  description TEXT,
+  amount NUMERIC(10, 2) NOT NULL CHECK (amount > 0),
+  members_count NUMERIC NOT NULL CHECK (amount > 0),
+  created_on TIMESTAMP NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);

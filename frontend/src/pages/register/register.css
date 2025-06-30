@@ -1,0 +1,97 @@
+.registeration-form{
+    background-image:url("../../../public/money_bg.png");
+    height:100vh;
+
+}
+.container{
+    padding-top: 10vh;
+    text-align: center;
+    margin-left:10vh;
+    margin-right:10vh;
+    max-width:60vh;
+    min-width:30vh;
+
+}
+
+.register-form{
+    display: inline-block;
+    font-size: 15px;
+    padding: 30px;
+    width:100%;
+    background: rgb(0, 0, 0, 0);
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0px 8px 32px rgb(0, 0, 0, 0.3);
+}
+
+
+.register-title{
+    color: rgb(0, 0, 0);
+    font-size: 35px;
+}
+
+.tagline{
+    color: rgb(0, 0, 0);
+    font-size: 16px;
+    margin-top: 5px;
+    margin-bottom: 20px;
+}
+
+.register-form input {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    color: rgb(8, 0, 0);
+    padding: 12px;
+    margin: 10px 0;
+    width: 100%;
+    border-radius: 6px;
+    padding-left: 32px;
+}
+
+.register-form button {
+    color: white;
+    border: none;
+    padding: 8px 24px;
+    margin-bottom: 10px;
+    margin-top: 15px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 18px;
+    transition: all 0.3s ease;
+}
+
+
+
+.tagline{
+    color: rgb(218,165,32);
+}
+
+.input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.input-wrapper .icon-box {
+    position: absolute;
+    left: 10px;
+    font-size: 18px;
+    color: #31ae1e;
+}
+
+
+.input-wrapper .view-icon {
+    position: absolute;
+    right: 10px;
+    color: #000000;
+    cursor: pointer;
+}
+
+.reg-Success{
+    color: green;
+    height: 25px;
+    font-size: 20px;
+    font-weight: bold;
+}

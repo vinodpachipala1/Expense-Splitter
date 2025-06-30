@@ -1,0 +1,258 @@
+.homeContainer {
+    text-align: center;
+    font-size: 40px;
+    font-weight: bold;
+    padding-bottom: 1.2%;
+    padding-top: 2%;
+    color: #163436;
+}
+
+.create {
+    border-radius: 32px;
+    padding: 0.8% 2.5%;
+    color: rgb(23, 66, 72);
+    background-color: #6fdde0;
+    font-size: 24px;
+    cursor: pointer;
+    border: none;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s ease;
+    margin-top: 1%;
+}
+
+.create:hover {
+    background-color: #b0e0e2;
+}
+
+.createBtn:active {
+    transform: scale(0.96);
+    background-color: #005bb5;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+    color: white;
+}
+
+
+.createBtn {
+    border: 2px solid #24b4fb;
+    background-color: #24b4fb;
+    border-radius: 0.9em;
+    cursor: pointer;
+    padding: 0.8em 1.2em 0.8em 1em;
+    transition: all ease-in-out 0.2s;
+    font-size: 16px;
+}
+
+.createBtn span {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    font-weight: 600;
+}
+
+.createBtn:hover {
+    background-color: #0071e2;
+}
+
+
+.homeContainer input {
+    padding: 0.7% 1%;
+    border-radius: 8px;
+    font-size: 20px;
+    border: 1px solid #ccc;
+    margin-top: 1%;
+}
+
+.title-tag {
+    padding: 1.2% 0;
+    font-size: 30px;
+    color: #124346;
+}
+
+.error-create {
+    color: red;
+    font-size: 20px;
+    height: 22px;
+    text-shadow: 1px 1px 2px rgb(208, 3, 3);
+}
+
+
+.badge {
+    padding: 1% 2%; 
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    color: white;
+}
+
+.badge.active {
+    background-color: green;
+}
+
+.badge.inactive {
+    background-color: gray;
+}
+
+
+
+.groupActions {
+    padding: 3.7% ;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+
+
+.viewBtn, .deleteBtn {
+    color: #090909;
+    padding: 0.7em 1.7em;
+    font-size: 18px;
+    border-radius: 0.5em;
+    background: #e8e8e8;
+    cursor: pointer;
+    border: 1px solid #e8e8e8;
+    transition: all 0.3s;
+    box-shadow: 6px 6px 12px #c5c5c5, -6px -6px 12px #ffffff;
+}
+.deleteBtn{
+    color: #e53e3e;
+    border-color: #e53e3e;
+}
+
+.viewBtn{
+    color: #3e7be5;
+    border-color: #3e7be5;
+}
+
+.deleteBtn:hover {
+    background-color: #de4646;
+    color: white;
+}
+
+.viewBtn:active, .deleteBtn:active {
+    color: #666;
+    box-shadow: inset 4px 4px 12px #c5c5c5, inset -4px -4px 12px #ffffff;
+}
+
+
+.groupcards{
+    margin-bottom: 80px;
+}
+.groupCard {
+    width: 90%;
+    max-width: 560px;
+    margin: 30px auto;
+    background-color: White;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    border-left: 4px solid #4CAF50;
+}
+
+.groupCard:hover{
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.15);
+}
+
+.groupTop {
+    padding: 4%;
+    color: #555;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #f1f1f1;
+    border-bottom: 1px solid #d6d3d3;
+    border-radius: 10px 10px 0px 0px;
+    padding-bottom: 2%;
+    margin-bottom: 15px;
+}
+
+.groupTop h2 {
+    margin: 0;
+    font-size: 1.5rem;
+}
+
+.groupDescription{
+    font-size: 1rem;
+    margin-bottom: 3.9%;
+    color: #555;
+}
+
+
+/* Toggle button */
+.glass-radio-group {
+  --bg: rgba(255, 255, 255, 0.06);
+  --text: #0b0505;
+  display: flex;
+  position: relative;
+  background: var(--bg);
+
+  backdrop-filter: blur(12px);
+  box-shadow:
+    inset 1px 1px 4px rgba(255, 255, 255, 0.2),
+    inset -1px -1px 6px rgba(0, 0, 0, 0.3),
+    0 4px 12px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+  width: 100%;
+}
+
+.glass-radio-group input {
+  display: none;
+}
+
+.glass-radio-group label {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 80px;
+  font-size: 20px;
+  height: 38px;
+  cursor: pointer;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  color: var(--text);
+  position: relative;
+  z-index: 2;
+  transition: color 0.3s ease-in-out;
+}
+
+.glass-radio-group label:hover {
+  color: rgb(29, 20, 20);
+}
+
+.glass-radio-group input:checked + label {
+  color: #fff;
+}
+
+.glass-glider {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: calc(100% / 2);
+
+  z-index: 1;
+  transition:
+    transform 0.5s cubic-bezier(0.37, 1.95, 0.66, 0.56),
+    background 0.4s ease-in-out,
+    box-shadow 0.4s ease-in-out;
+}
+
+/* Silver */
+#glass-silver:checked ~ .glass-glider {
+  transform: translateX(0%);
+  background: linear-gradient(135deg, #3a3936, #3a3936);
+  box-shadow:
+    0 0 18px rgba(100, 97, 83, 0.5),
+    0 0 10px rgba(61, 60, 53, 0.4) inset;
+}
+
+/* Gold */
+#glass-gold:checked ~ .glass-glider {
+  transform: translateX(100%);
+  background: linear-gradient(135deg, #3a3936, #3a3936);
+  box-shadow:
+    0 0 18px rgba(100, 97, 83, 0.5),
+    0 0 10px rgba(61, 60, 53, 0.4) inset;
+}
+

@@ -1,0 +1,58 @@
+.login-form{
+    background-image:url("../../../public/money_bg.png");
+    height:100vh;
+
+}
+
+
+.login-detail{
+    display: inline-block;
+    font-size: 15px;
+    padding: 30px;
+    width:100%;
+    color: rgb(19, 10, 10);
+    background: rgb(0, 0, 0, 0);
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+    border: 1px solid rgb(255,255,255,0.1);
+    border-radius: 10px;
+    box-shadow: 0px 8px 32px rgb(0, 0, 0, 0.3);
+}
+
+
+.login-container{
+    padding-top: 10vh;
+    text-align: center;
+    margin-left: 10vh;
+    margin-right: 10vh;
+    max-width:60vh;
+    min-width: 30vh;
+}
+
+.login-detail p{
+    text-align: left;
+    padding: 10PX;
+    font-weight:bold;
+}
+
+.login-detail input{
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(9, 5, 5, 0.2);
+    padding: 12px;
+    margin: 10px 0;
+    width: 100%;
+    border-radius: 6px;
+    color: rgb(0, 0, 0);
+}
+
+.login-detail button {
+    color: white;
+    border: none;
+    padding: 8px 24px;
+    margin-bottom: 10px;
+    margin-top: 15px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 18px;
+    transition: all 0.3s ease;
+}
