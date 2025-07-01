@@ -22,6 +22,7 @@ const HomePage = () => {
         const verify = async () => {
             try {
                 const res = await axios.get("https://expense-splitter-45tz.onrender.com/verify", {withCredentials: true});
+                console.log(res.data.data);
                 if(res.data.data){
                     setUser(res.data.data);
                     const res1 = await axios.post("https://expense-splitter-45tz.onrender.com/getGroup", {withCredentials: true, id: res.data.data.id});

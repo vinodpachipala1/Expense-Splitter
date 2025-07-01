@@ -24,6 +24,7 @@ const LoginForm = () => {
             e.preventDefault();
             try{
                 const result = await axios.post("https://expense-splitter-45tz.onrender.com/login", { log:log }, { withCredentials: true });
+                
                 if (result.data.redirect) {
                     navigate(result.data.redirect);
                 }

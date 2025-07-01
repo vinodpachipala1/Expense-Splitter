@@ -31,7 +31,9 @@ app.use(session({
     resave: false,
     saveUninitialized: false,
     cookie: {
-        maxAge: 100 * 60 * 60 * 24,
+        maxAge: 1000 * 60 * 60 * 24, // 1 day
+        secure: true, // Required when using HTTPS
+        sameSite: "none" // Needed when frontend and backend are on different domains
     }
 }));
 
