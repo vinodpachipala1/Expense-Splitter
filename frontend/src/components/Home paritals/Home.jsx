@@ -14,7 +14,7 @@ const Home = (props) => {
     const createGroup = async () => {
         try{
             if(GroupName.trim().length >= 3){
-                const res = await axios.post("https://expense-splitter-45tz.onrender.com/CreateGroup", {withCredentials: true, id: props.user.id, GroupName: GroupName});
+                const res = await axios.post("https://expense-splitter-45tz.onrender.com/CreateGroup",{id: props.user.id, GroupName: GroupName},{withCredentials: true});
                 setsuccessMsg(res.data.message)
                 
                 if(res.data.id){
