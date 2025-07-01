@@ -8,7 +8,7 @@ const Home2 = (props) => {
     const [DeleterMsg, SetDeleteMsg] = useState("");
     const ondelete= async (id) => {
         try{
-            const res = await axios.delete("https://expense-splitter-45tz.onrender.com/deleteGroup", {withCredentials: true, data: { id: id }})
+            const res = await axios.delete("https://expense-splitter-45tz.onrender.com/deleteGroup", {data: { id: id }}, {withCredentials: true})
             SetDeleteMsg(res.data);
             setTimeout(() => {
                 SetDeleteMsg("");

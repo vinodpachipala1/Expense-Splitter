@@ -17,7 +17,7 @@ const Home3 = (props) => {
     
     const ondelete= async (id) => {
         try{
-            const res = await axios.delete("https://expense-splitter-45tz.onrender.com/LeaveGroup", {withCredentials: true, data: { id: id }})
+            const res = await axios.delete("https://expense-splitter-45tz.onrender.com/LeaveGroup", {data: { id: id }}, {withCredentials: true})
             SetDeleteMsg(res.data);
             setTimeout(() => {
                 SetDeleteMsg("");

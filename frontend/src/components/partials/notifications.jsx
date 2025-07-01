@@ -8,7 +8,7 @@ const Notification = (props) => {
     const [successMsg, setsuccessMsg] = useState("");
     const notifications = async(userId) => {
         try{
-            const res = await axios.post("https://expense-splitter-45tz.onrender.com/getNotifications", {withCredentials: true, userId});
+            const res = await axios.post("https://expense-splitter-45tz.onrender.com/getNotifications", {userId}, {withCredentials: true});
             console.log(res.data);
             setNotificationed(res.data)
         } catch(err) {
@@ -19,7 +19,7 @@ const Notification = (props) => {
     const deleteRequest = async (notification_id, userId) => {
         console.log(userId)
         try{
-            const res = await axios.delete("https://expense-splitter-45tz.onrender.com/deleteRequest", {withCredentials: true, data : {notification_id}});
+            const res = await axios.delete("https://expense-splitter-45tz.onrender.com/deleteRequest", {data : {notification_id}}, {withCredentials: true});
             console.log(res.data);
             if(res.data){
                 await notifications(userId);
@@ -35,7 +35,7 @@ const Notification = (props) => {
     const acceptRequest = async (notification_id, userId, groupId) => {
         console.log(groupId)
         try{
-            const res = await axios.post("https://expense-splitter-45tz.onrender.com/acceptRequest", {withCredentials: true, data: {userId, groupId}});
+            const res = await axios.post("https://expense-splitter-45tz.onrender.com/acceptRequest", {data: {userId, groupId}}, {withCredentials: true});
             
             await deleteRequest(notification_id, userId) ;
             setsuccessMsg(res.data);

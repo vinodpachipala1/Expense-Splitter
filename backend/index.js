@@ -23,18 +23,11 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use(
-  cors({
-    origin: function (origin, callback) {
-      if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error("Not allowed by CORS"));
-      }
-    },
-    credentials: true,
-  })
-);
+app.use(cors({
+  origin: "https://expense-splitter-xi-two.vercel.app", // exact domain only
+  credentials: true
+}));
+
 
 const PgSession = pgSession(session);
 
@@ -56,6 +49,7 @@ app.use(
       maxAge: 1000 * 60 * 60 * 24, // 1 day
       secure: true,
       sameSite: "none",
+      httpOnly: true 
     },
   })
 );

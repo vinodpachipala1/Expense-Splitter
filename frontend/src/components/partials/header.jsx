@@ -26,7 +26,7 @@ const Header = (props) => {
 
     //logout
     const logout = async () => {
-        const res = await axios.post("https://expense-splitter-45tz.onrender.com/logout", {}, { withCredentials: true });
+        const res = await axios.post("https://expense-splitter-45tz.onrender.com/logout", { withCredentials: true });
         navigate("/");
     }
     return (

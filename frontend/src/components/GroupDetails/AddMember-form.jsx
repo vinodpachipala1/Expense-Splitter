@@ -21,7 +21,7 @@ const AddMember = (props) =>{
         
         try{
             if(input.trim().length != 0){
-                const res = await axios.post("https://expense-splitter-45tz.onrender.com/sendInvite", {withCredentials: true, data: {groupId , input, group_name, sent_from: userId}});
+                const res = await axios.post("https://expense-splitter-45tz.onrender.com/sendInvite", {data: {groupId , input, group_name, sent_from: userId}}, {withCredentials: true} );
                 setsuccessMsg(res.data);
                 setTimeout(() => {
                     setsuccessMsg("");
