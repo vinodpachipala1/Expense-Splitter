@@ -177,12 +177,10 @@ app.post("/register", async (req, res) => {
       }
     }
 
-    return res
-      .status(500)
-      .json({
-        type: "server",
-        error: "Something went wrong. Please try again later!",
-      });
+    return res.status(500).json({
+      type: "server",
+      error: "Something went wrong. Please try again later!",
+    });
   }
 });
 
@@ -210,14 +208,17 @@ app.post("/login", async (req, res) => {
             email: user.email,
             name: user.name,
           };
+
+          console.log("🟢 Before session.save:", req.session);
+
           req.session.save((err) => {
             if (err) {
-              return res
-                .status(500)
-                .send({
-                  error: "Something went wrong. Please try again later!",
-                });
+              console.error("🔴 Session save error:", err);
+              return res.status(500).send({
+                error: "Something went wrong. Please try again later!",
+              });
             }
+            console.log("✅ Session saved successfully:", req.session);
             return res.status(200).json({ redirect: "/home" });
           });
         } else {
@@ -236,7 +237,7 @@ app.post("/login", async (req, res) => {
 
 //verify login
 app.get("/verify", (req, res) => {
-    console.log("Verify session:", req.session);
+  console.log("Verify session:", req.session);
   res.send({ data: req.session.user || null });
 });
 
