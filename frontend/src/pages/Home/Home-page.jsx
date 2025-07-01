@@ -21,14 +21,12 @@ const HomePage = () => {
     useEffect(() => {
         const verify = async () => {
             try {
-                const res = await axios.get("http://localhost:3001/verify", {withCredentials: true});
+                const res = await axios.get("https://expense-splitter-45tz.onrender.com/verify", {withCredentials: true});
                 if(res.data.data){
                     setUser(res.data.data);
-                    console.log(res.data.data)
-                    const res1 = await axios.post("http://localhost:3001/getGroup", {withCredentials: true, id: res.data.data.id});
+                    const res1 = await axios.post("https://expense-splitter-45tz.onrender.com/getGroup", {withCredentials: true, id: res.data.data.id});
                     if(res1.data.data){
                         setGroup(res1.data.data);
-                        console.log(res1.data.data);
                     }
                 }
             } catch (err) {
@@ -40,8 +38,7 @@ const HomePage = () => {
 
     const getData = async () => {
         try {
-            const res = await axios.post("http://localhost:3001/getAcceptedGroups",{withCredentials: true, userId: user.id})
-            console.log(res.data.accepted_groups);
+            const res = await axios.post("https://expense-splitter-45tz.onrender.com/getAcceptedGroups",{withCredentials: true, userId: user.id})
             const groups = res.data.accepted_groups;
             setGroups(groups.filter(group => group.created_user_id != user.id));
         } catch (err) {

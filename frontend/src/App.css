@@ -327,9 +327,7 @@ footer {
   font-size: 20px;
   left: 50%;
   transform: translateX(-50%);
-  background: #d4edda;
   padding: 12px 24px;
-  border: 1px solid #c3e6cb;
   border-radius: 8px;
   z-index: 9999;
   font-weight: 500;
@@ -338,11 +336,15 @@ footer {
 }
 
 .success-card{
+  background: #d4edda;
+  border: 1px solid #c3e6cb;
   color: #155724;
 }
 
-.delete-card{
-  color: #a11c1c;
+.delete-card {
+  background-color: #f8d7da;
+  border: 1px solid #f5c6cb;
+  color: #721c24;
 }
 
 @keyframes slideDown {

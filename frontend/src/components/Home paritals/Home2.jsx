@@ -5,14 +5,16 @@ import { useNavigate } from "react-router-dom";
 const Home2 = (props) => {
 
     const navigate = useNavigate();
-    
+    const [DeleterMsg, SetDeleteMsg] = useState("");
     const ondelete= async (id) => {
         try{
-            const res = await axios.delete("http://localhost:3001/deleteGroup", {withCredentials: true, data: { id: id }})
-            console.log(res.data);
+            const res = await axios.delete("https://expense-splitter-45tz.onrender.com/deleteGroup", {withCredentials: true, data: { id: id }})
+            SetDeleteMsg(res.data);
+            setTimeout(() => {
+                SetDeleteMsg("");
+            }, 1500)
             if(res.data){
                 const newGroups = await props.group.filter(group => group.id != id);
-                console.log(newGroups);
                 props.setGroup(newGroups);
             }
         }
@@ -29,7 +31,6 @@ const Home2 = (props) => {
 
     return(
     <div className="groupcards">
-        {console.log()}
         {props.group.length > 0 ? props.group.map((group) =>
             <div key={group.id} className="groupCard">
 
@@ -49,6 +50,8 @@ const Home2 = (props) => {
 
             </div>
         ) : <p className="empty">You don’t have any groups at the moment. Create one to get started!</p>}
+
+        {DeleterMsg && (<div className="delete-card">{DeleterMsg}</div>)}
     </div>
 
 ) }

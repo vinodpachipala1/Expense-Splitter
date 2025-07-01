@@ -3,11 +3,12 @@ import { useEffect,useState } from "react";
 
 const Notification = (props) => {
     
-
+    const [errorMsg, SetErrorMsg] = useState("");
     const [notificationed, setNotificationed] = useState()
+    const [successMsg, setsuccessMsg] = useState("");
     const notifications = async(userId) => {
         try{
-            const res = await axios.post("http://localhost:3001/getNotifications", {withCredentials: true, userId});
+            const res = await axios.post("https://expense-splitter-45tz.onrender.com/getNotifications", {withCredentials: true, userId});
             console.log(res.data);
             setNotificationed(res.data)
         } catch(err) {
@@ -18,24 +19,32 @@ const Notification = (props) => {
     const deleteRequest = async (notification_id, userId) => {
         console.log(userId)
         try{
-            const res = await axios.delete("http://localhost:3001/deleteRequest", {withCredentials: true, data : {notification_id}});
+            const res = await axios.delete("https://expense-splitter-45tz.onrender.com/deleteRequest", {withCredentials: true, data : {notification_id}});
             console.log(res.data);
             if(res.data){
                 await notifications(userId);
             }
         } catch(err) {
-            console.log(err.response.data)
+            SetErrorMsg(err.response.data);
+            setTimeout(() => {
+                SetErrorMsg("");
+            }, 1500)
         }
     }
 
     const acceptRequest = async (notification_id, userId, groupId) => {
         console.log(groupId)
         try{
-            const res = await axios.post("http://localhost:3001/acceptRequest", {withCredentials: true, data: {userId, groupId}});
+            const res = await axios.post("https://expense-splitter-45tz.onrender.com/acceptRequest", {withCredentials: true, data: {userId, groupId}});
+            
             await deleteRequest(notification_id, userId) ;
+            setsuccessMsg(res.data);
+            setTimeout(() => {
+                setsuccessMsg("");
+            }, 1500)
             {props.getData && await props.getData();}
         } catch(err) {
-            console.log(err.response.data)
+            console.log(err.response.data);
         }
     }
 
@@ -61,7 +70,7 @@ const Notification = (props) => {
 
                 <div className="notification-btn">
                     <button onClick={() => deleteRequest(notify.notification_id, props.userId)} className="delete">Delete</button>
-                    <button onClick={() => acceptRequest(notify.notification_id, props.userId, notify.group_id)} className="accept">Accept</button>
+                    <button onClick={() => acceptRequest(notify.notification_id, props.userId, notify.group_id)} className="accept">Join</button>
                 </div>
 
                 <p className="sender-detail">from {notify.sender_name}</p>
@@ -71,7 +80,10 @@ const Notification = (props) => {
             )}
             </div>
         </div>}
+        
     </div>
+    {successMsg && (<div className="success-card">{successMsg}</div>)}
+    {errorMsg && (<div className="delete-card">{errorMsg}</div>)}
     </>);
 }
 

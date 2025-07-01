@@ -13,8 +13,8 @@ const Home = (props) => {
 
     const createGroup = async () => {
         try{
-            if(GroupName.trim().length > 3){
-                const res = await axios.post("http://localhost:3001/CreateGroup", {withCredentials: true, id: props.user.id, GroupName: GroupName});
+            if(GroupName.trim().length >= 3){
+                const res = await axios.post("https://expense-splitter-45tz.onrender.com/CreateGroup", {withCredentials: true, id: props.user.id, GroupName: GroupName});
                 setsuccessMsg(res.data.message)
                 
                 if(res.data.id){
@@ -29,7 +29,6 @@ const Home = (props) => {
             }
         }
         catch(err){
-            console.log(err.response.data);
             seterror(err.response.data);
         }
     }

@@ -6,6 +6,7 @@ const Home3 = (props) => {
 
     const navigate = useNavigate();
     const groups = props.group
+    const [DeleterMsg, SetDeleteMsg] = useState("");
 
     useEffect(() => {
         if (props.userId){
@@ -16,7 +17,11 @@ const Home3 = (props) => {
     
     const ondelete= async (id) => {
         try{
-            const res = await axios.delete("http://localhost:3001/LeaveGroup", {withCredentials: true, data: { id: id }})
+            const res = await axios.delete("https://expense-splitter-45tz.onrender.com/LeaveGroup", {withCredentials: true, data: { id: id }})
+            SetDeleteMsg(res.data);
+            setTimeout(() => {
+                SetDeleteMsg("");
+            }, 1500)
             await props.getData();
         }
         catch(err){
@@ -51,6 +56,7 @@ const Home3 = (props) => {
 
             </div>
         ) : <p className="empty">You're not part of any groups yet.</p>}
+        {DeleterMsg && (<div className="delete-card">{DeleterMsg}</div>)}
     </div>
 
 )}

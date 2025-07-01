@@ -9,6 +9,7 @@ const AddMember = (props) =>{
     const {groupId, group_name, userId} = location.state || {};
     const [error, SetError] = useState("");
     const [successMsg, setsuccessMsg] = useState("");
+    
 
     const [input, setInput] = useState("");
     const handleOnChange = (e) => {
@@ -20,7 +21,11 @@ const AddMember = (props) =>{
         
         try{
             if(input.trim().length != 0){
-                const res = await axios.post("http://localhost:3001/sendInvite", {withCredentials: true, data: {groupId , input, group_name, sent_from: userId}});
+                const res = await axios.post("https://expense-splitter-45tz.onrender.com/sendInvite", {withCredentials: true, data: {groupId , input, group_name, sent_from: userId}});
+                setsuccessMsg(res.data);
+                setTimeout(() => {
+                    setsuccessMsg("");
+                }, 1500)
             }
             else{
                 SetError("Please Enter user name or mail id!")
@@ -47,6 +52,7 @@ const AddMember = (props) =>{
                     <button onClick={invite} className="create" >Add Member</button>
                 </div>
             </div>
+            {successMsg && (<div className="success-card">{successMsg}</div>)}
         </div>
 
     )

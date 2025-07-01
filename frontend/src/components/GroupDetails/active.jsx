@@ -8,6 +8,8 @@ const Active = (props) => {
   const { groupId, userId } = location.state || {};
   const [groupMembers, SetMembers] = useState([]);
   const [view, SetView] = useState();
+  const [DeleterMsg, SetDeleteMsg] = useState("");
+  const [successMsg, setsuccessMsg] = useState("");
 
   useEffect(() => {
     active();
@@ -15,26 +17,31 @@ const Active = (props) => {
 
   const active = async () => {
     try {
-      const res = await axios.post("http://localhost:3001/getActiveExpenses", {
+      const res = await axios.post("https://expense-splitter-45tz.onrender.com/getActiveExpenses", {
         groupId,
       });
-      console.log(res.data);
       SetExpenses(res.data.expenses);
       const mem = res.data.members;
-      console.log(mem.length);
       SetMembers(mem);
     } catch (err) {
       console.log(err);
     }
   };
 
-  const deleteExpense = async (ExpenseId) => {
+  const deleteExpense = async (ExpenseId, type) => {
     try {
-      const res = await axios.delete("http://localhost:3001/deleteExpense", {
+      const res = await axios.delete("https://expense-splitter-45tz.onrender.com/deleteExpense", {
         data: { ExpenseId },
       });
+      if(type === "delete")
+        {SetDeleteMsg(res.data);
+        setTimeout(() => {
+            SetDeleteMsg("");
+        }, 1500)}
       await active();
-    } catch (err) {}
+    } catch (err) {
+
+    }
   };
 
   const settle = async (
@@ -45,13 +52,17 @@ const Active = (props) => {
     groupmembers
   ) => {
     try {
-      const res = await axios.post("http://localhost:3001/Settle", {
+      const res = await axios.post("https://expense-splitter-45tz.onrender.com/Settle", {
         expense,
         amount_per_person,
         groupmembers,
         members_count,
       });
-      await deleteExpense(ExpenseId);
+      setsuccessMsg(res.data);
+      setTimeout(() => {
+        setsuccessMsg("");
+      }, 1500)
+      await deleteExpense(ExpenseId, "settle");
     } catch (err) {
       console.log(err);
     }
@@ -165,7 +176,7 @@ const Active = (props) => {
                     <button
                       class="flex justify-center items-center  w-28 h-12 cursor-pointer rounded-md shadow-2xl text-white font-semibold bg-gradient-to-r from-[#fb7185] via-[#e11d48] to-[#be123c] hover:shadow-xl hover:shadow-red-500 hover:scale-105 duration-300 hover:from-[#be123c] hover:to-[#fb7185]"
                       onClick={() => {
-                        deleteExpense(expense.id);
+                        deleteExpense(expense.id, "delete");
                       }}
                     >
                       <svg viewBox="0 0 15 15" class="w-5 fill-white">
@@ -193,6 +204,8 @@ const Active = (props) => {
           ))}
         </div>
       ) : <p className="empty">You have no expenses yet.</p>}
+      {DeleterMsg && (<div className="delete-card">{DeleterMsg}</div>)}
+      {successMsg && (<div className="success-card">{successMsg}</div>)}
     </div>
   );
 };

@@ -12,8 +12,7 @@ const Previous =  () => {
     useEffect(() => {
         const settled = async () => {
             try{
-                const res = await axios.post("http://localhost:3001/getExpenseHistory", {groupId});
-                console.log(res.data);
+                const res = await axios.post("https://expense-splitter-45tz.onrender.com/getExpenseHistory", {groupId});
                 SetSettledExpenses(res.data);
             } catch (err){
 

@@ -4,6 +4,7 @@ import pg, { Client,Pool } from "pg";
 import bcrypt from "bcrypt";
 import session from "express-session";
 import dotenv from "dotenv";
+import pgSession from "connect-pg-simple";
 
 const app = express();
 const port = 3001;
@@ -11,8 +12,21 @@ const saltRounds = 10;
 
 dotenv.config();
 app.use(express.json())
-app.use(cors({origin: "http://localhost:3000",  credentials: true}))
+app.use(cors({origin: "https://expense-splitter-xi-two.vercel.app",  credentials: true}))
+
+
+const PgSession = pgSession(session);
+
+const db = new Pool({
+    connectionString: process.env.string,
+});
+
 app.use(session({
+    store: new PgSession({
+        pool: db,
+        tableName: 'session',
+        createTableIfMissing: true
+    }),
     secret: "your_secret_key",
     resave: false,
     saveUninitialized: false,
@@ -29,9 +43,7 @@ app.use(session({
 //     port: process.env.port
 // });
 
-const db = new Pool({
-  connectionString: 'postgresql://neondb_owner:npg_Pu1DG5gpnfRq@ep-long-sound-a8pae63y-pooler.eastus2.azure.neon.tech/neondb?sslmode=require&channel_binding=require',
-});
+
 
 
 db.connect();
@@ -117,29 +129,29 @@ app.post("/register", async (req, res) => {
   name = name.trim();
   email = email.trim();
 
-  try {
+try {
     const hash = await bcrypt.hash(password, saltRounds);
 
     await db.query(
-      `INSERT INTO users (name, username, email, phone, password)
-       VALUES ($1, $2, $3, $4, $5)`,
-      [name, username, email, phone, hash]
+        `INSERT INTO user (name, username, email, phone, password)
+        VALUES ($1, $2, $3, $4, $5)`,
+        [name, username, email, phone, hash]
     );
 
     return res.status(201).json({ message: "Registered successfully!" });
-  } catch (err) {
+} catch (err) {
     if (err.code === "23505") {
-      if (err.constraint === "users_username_key") {
-        return res.status(409).json({ type:"username", error: "Username already exists" });
-      } else if (err.constraint === "users_email_key") {
-        return res.status(409).json({ type:"email", error: "Email already exists" });
-      } else if (err.constraint === "users_phone_key") {
-        return res.status(409).json({type:"phone", error: "Phone number already exists" });
-      }
+        if (err.constraint === "users_username_key") {
+            return res.status(409).json({ type:"username", error: "Username already exists" });
+        } else if (err.constraint === "users_email_key") {
+            return res.status(409).json({ type:"email", error: "Email already exists" });
+        } else if (err.constraint === "users_phone_key") {
+            return res.status(409).json({type:"phone", error: "Phone number already exists" });
+        }
     }
 
-    return res.status(500).json({type:"server", error: "Something went wrong. Please try again later." });
-  }
+    return res.status(500).json({type:"server", error: "Something went wrong. Please try again later!" });
+    }
 });
 
 
@@ -154,7 +166,7 @@ app.post("/login", async (req, res) => {
 
             bcrypt.compare(password, user.password, async (err, match) => {
                 if (err) {
-                    return res.status(505).send({error: "Something went wrong. Please try again later." });
+                    return res.status(505).send({error: "Something went wrong. Please try again later!" });
                 }
                 
                 if (match) {
@@ -165,7 +177,7 @@ app.post("/login", async (req, res) => {
                     };
                     req.session.save((err) => {
                         if (err) {
-                            return res.status(500).send({error: "Something went wrong. Please try again later." });
+                            return res.status(500).send({error: "Something went wrong. Please try again later!" });
                         }
                         return res.status(200).json({ redirect: "/home" });
                     });
@@ -178,7 +190,7 @@ app.post("/login", async (req, res) => {
             return res.status(404).send({error: "User not found"});
         }
     } catch (err) {
-        return res.status(500).send({error: "Something went wrong. Please try again later." });
+        return res.status(500).send({error: "Something went wrong. Please try again later!" });
     }
 });
 
@@ -229,7 +241,7 @@ app.delete("/deleteGroup", async (req, res) => {
     const id = req.body.id;
     try{
         await db.query(`DELETE FROM groups WHERE id = $1`, [id]);
-        res.send("Successfully deleted");
+        res.send("Group deleted successfully!");
     }
     catch(err){
         console.log(err);
@@ -260,11 +272,11 @@ app.post("/sendInvite", async (req, res) => {
                     // checking if notifiction already sent or not
                 const check_sent = await db.query(`SELECT id FROM notifications WHERE user_id = $1 AND group_id = $2`,[userId, groupId]);
                 if(check_sent.rows[0]){
-                    res.status(501).send("Notification already Sent!")
+                    res.status(501).send("Invite already Sent!")
                 }
                 else{
                     await db.query(`INSERT INTO notifications(user_id, sent_from, group_id, message) VALUES ($1, $2, $3, $4)`,[userId, sent_from, groupId, group_name]);
-                    res.send("Notification Sent!")
+                    res.send("Invite sent successfully!");
                 }
             }
             
@@ -305,7 +317,7 @@ app.post("/acceptRequest", async (req, res) => {
     const {userId, groupId} = req.body.data;
     try{
         await db.query(`INSERT INTO group_members (group_id, user_id) VALUES ($1, $2)`,[groupId, userId])
-        res.send("Request Accepted");
+        res.send("Successfully joined the group!");
     } catch (err){
         console.log(err);
         res.status(500).send("Error Please try again later");
@@ -318,7 +330,6 @@ app.post("/getAcceptedGroups", async (req, res) => {
     const userId = req.body.userId;
     try {
         const result = await db.query(`SELECT * FROM (SELECT group_members.id as accepted_group_id, groups.id as group_id, groups.created_by as created_user_id, group_members.user_id,groups.group_name FROM groups INNER JOIN group_members ON group_members.group_id = groups.id) AS MEOW WHERE user_id = $1`, [userId]);
-        console.log(result.rows);
         const accepted_groups = result.rows;
         res.send({"message" : "successfully loaded data", accepted_groups });
     } catch (err) {
@@ -332,7 +343,7 @@ app.delete("/LeaveGroup", async (req, res) => {
     const id = req.body.id;
     try{
         await db.query(`DELETE FROM group_members WHERE id = $1`, [id]);
-        res.send("left Successfully!");
+        res.send("Successfully left the group!");
     } catch (err){
         res.status(500).send("server not responding please try again later");
     }
@@ -346,9 +357,9 @@ app.post("/addNewExpense", async (req, res) => {
 
     try{
         await db.query(`INSERT INTO expenses (group_id, paid_by, name, description, amount) values ($1, $2, $3, $4, $5)`, [groupId, paid_by, name, description, amount]);
-        res.send("hello");
+        res.send("Expense added successfully!");
     } catch (err) {
-        console.log(err)
+        res.status(400).send("Expense name already exists in this group!")
     }
     
 })
@@ -380,19 +391,18 @@ app.delete("/deleteExpense", async(req, res) => {
     const id = req.body.ExpenseId;
     try {
         await db.query("DELETE FROM expenses WHERE id = $1", [id]);
-        res.send("success")
+        res.send("Expense deleted successfully!")
     } catch (err) {
-        res.status(505).send("Error")
+        res.status(505).send("Error deleting expense. try again later!")
     }
 })
 
 //settle expenses and add to history table
 app.post("/Settle", async(req, res) =>{
     const {expense, amount_per_person, groupmembers, members_count} = req.body;
-    console.log(expense)
     try{
         await db.query("INSERT INTO expenses_history (expense_id, name, group_id, paye_name, names, description, amount, members_count, created_on) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)", [expense.id, expense.name, expense.group_id, expense.paye_name, groupmembers, expense.description, amount_per_person, members_count, expense.created_at])
-        res.send("success");
+        res.send("Successfully settled the expense!");
     } catch(err) {
         console.log(err)
         res.status(505).send("Error")
@@ -403,10 +413,9 @@ app.post("/Settle", async(req, res) =>{
 app.post("/getExpenseHistory", async(req, res) => {
     try{
         const result = await db.query("SELECT * FROM expenses_history WHERE group_id = $1",[req.body.groupId])
-        console.log(result.rows)
         res.send(result.rows);
     }catch(err){
-
+        console.log(err);
     }
 })
 //Accept Notification

@@ -4,6 +4,12 @@
 
 }
 
+.login-error{
+    color: red;
+    text-align: center;
+    height: 20px;
+}
+
 
 .login-detail{
     display: inline-block;

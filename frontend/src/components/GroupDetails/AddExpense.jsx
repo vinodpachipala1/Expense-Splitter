@@ -5,6 +5,7 @@ import { useLocation } from "react-router-dom";
 const AddExpenses = () => {
 
     const location = useLocation();
+    const [successMsg, setsuccessMsg] = useState("");
     const {groupId, group_name, userId} = location.state || {};
     const [errors, SetErrors] = useState({
         name: "",
@@ -56,10 +57,14 @@ const AddExpenses = () => {
         e.preventDefault();
         if(verify()){
             try {
-                const res = await axios.post("http://localhost:3001/addNewExpense", {newExpense});
-                console.log(res)
+                const res = await axios.post("https://expense-splitter-45tz.onrender.com/addNewExpense", {newExpense});
+                setsuccessMsg(res.data);
+                setTimeout(() => {
+                    setsuccessMsg("");
+                }, 1500);
             } catch (err) {
-            
+              console.log(err.response.data)
+              SetErrors((prev) => ({...prev, name: err.response.data}))
             }
         }
     }
@@ -138,6 +143,7 @@ const AddExpenses = () => {
       </span>
     </button>
   </form>
+  {successMsg && (<div className="success-card">{successMsg}</div>)}
 </div>);
 }
 

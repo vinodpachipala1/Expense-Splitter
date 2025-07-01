@@ -24,8 +24,7 @@ const AddGroupDetails = () => {
 
     const getMembers = async () => {
         try {
-            const res = await axios.post("http://localhost:3001/getGroupMembers", {groupId});
-            console.log(res.data.members)
+            const res = await axios.post("https://expense-splitter-45tz.onrender.com/getGroupMembers", {groupId});
             SetGroupMembers(res.data.members);
         } catch (err) {
             console.log(err);
@@ -85,6 +84,7 @@ const AddGroupDetails = () => {
         {display === "previousSplits" && <div className="expenses-card" > <Previous /> </div>}
     </div>
     <Footer />
+    
     </>)
 }
 

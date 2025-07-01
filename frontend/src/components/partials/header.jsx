@@ -10,7 +10,7 @@ const Header = (props) => {
     useEffect(() => {
         const verify = async () => {
             try {
-                const res = await axios.get("http://localhost:3001/verify", {withCredentials: true});
+                const res = await axios.get("https://expense-splitter-45tz.onrender.com/verify", {withCredentials: true});
                 if(res.data.data){
                     setUser(res.data.data);
                 } else {
@@ -26,7 +26,7 @@ const Header = (props) => {
 
     //logout
     const logout = async () => {
-        const res = await axios.post("http://localhost:3001/logout", {}, { withCredentials: true });
+        const res = await axios.post("https://expense-splitter-45tz.onrender.com/logout", {}, { withCredentials: true });
         navigate("/");
     }
     return (
