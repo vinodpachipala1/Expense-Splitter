@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
+import { BASE_URL } from "../path";
 
 const AddExpenses = () => {
 
@@ -57,7 +58,7 @@ const AddExpenses = () => {
         e.preventDefault();
         if(verify()){
             try {
-                const res = await axios.post("https://expense-splitter-45tz.onrender.com/addNewExpense", {newExpense});
+                const res = await axios.post(`${BASE_URL}addNewExpense`, {newExpense});
                 setsuccessMsg(res.data);
                 setTimeout(() => {
                     setsuccessMsg("");

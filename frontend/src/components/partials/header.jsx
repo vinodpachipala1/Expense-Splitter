@@ -2,7 +2,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Notification from "./notifications";
 import { useEffect, useState } from "react";
-
+import { BASE_URL } from "../path";
 const Header = (props) => {
     const navigate = useNavigate();
     const [user, setUser] = useState([]);
@@ -10,7 +10,7 @@ const Header = (props) => {
     useEffect(() => {
         const verify = async () => {
             try {
-                const res = await axios.get("https://expense-splitter-45tz.onrender.com/verify", {withCredentials: true});
+                const res = await axios.get(`${BASE_URL}/verify`, {withCredentials: true});
                 if(res.data.data){
                     setUser(res.data.data);
                 } else {
@@ -26,7 +26,7 @@ const Header = (props) => {
 
     //logout
     const logout = async () => {
-        const res = await axios.post("https://expense-splitter-45tz.onrender.com/logout", { withCredentials: true });
+        const res = await axios.post(`${BASE_URL}/logout`, { withCredentials: true });
         navigate("/");
     }
     return (

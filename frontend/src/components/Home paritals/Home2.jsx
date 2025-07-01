@@ -1,14 +1,14 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-
+import { BASE_URL } from "../path";
 const Home2 = (props) => {
 
     const navigate = useNavigate();
     const [DeleterMsg, SetDeleteMsg] = useState("");
     const ondelete= async (id) => {
         try{
-            const res = await axios.delete("https://expense-splitter-45tz.onrender.com/deleteGroup", {data: { id: id }}, {withCredentials: true})
+            const res = await axios.delete(`${BASE_URL}/deleteGroup`, {data: { id: id }}, {withCredentials: true})
             SetDeleteMsg(res.data);
             setTimeout(() => {
                 SetDeleteMsg("");
@@ -31,7 +31,7 @@ const Home2 = (props) => {
 
     return(
     <div className="groupcards">
-        {props.group.length > 0 ? props.group.map((group) =>
+        {!props.load ? props.group.length > 0 ? props.group.map((group) =>
             <div key={group.id} className="groupCard">
 
                 <div className="groupTop">
@@ -49,7 +49,7 @@ const Home2 = (props) => {
                 </div>
 
             </div>
-        ) : <p className="empty">You don’t have any groups at the moment. Create one to get started!</p>}
+        ) : <p className="empty">You don’t have any groups at the moment. Create one to get started!</p> : <div className="group-load-container"><div class="loader"></div></div>}
 
         {DeleterMsg && (<div className="delete-card">{DeleterMsg}</div>)}
     </div>

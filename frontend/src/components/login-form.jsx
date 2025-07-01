@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { IoEye } from "react-icons/io5";
 import { FaRegUser, FaRegUserCircle, FaRegEyeSlash } from "react-icons/fa";
+import { BASE_URL } from "./path";
 const LoginForm = () => {
     const navigate = useNavigate();
     const [log, setLog] = useState({
@@ -23,7 +24,8 @@ const LoginForm = () => {
         const login = async (e) => {
             e.preventDefault();
             try{
-                const result = await axios.post("https://expense-splitter-45tz.onrender.com/login", { log:log }, { withCredentials: true });
+                console.log(BASE_URL)
+                const result = await axios.post(`${BASE_URL}/login`, { log:log }, { withCredentials: true });
                 
                 if (result.data.redirect) {
                     navigate(result.data.redirect);

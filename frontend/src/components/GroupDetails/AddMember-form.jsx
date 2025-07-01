@@ -2,6 +2,7 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import Header from "../partials/header";
+import { BASE_URL } from "../path";
 
 const AddMember = (props) =>{
 
@@ -21,7 +22,7 @@ const AddMember = (props) =>{
         
         try{
             if(input.trim().length != 0){
-                const res = await axios.post("https://expense-splitter-45tz.onrender.com/sendInvite", {data: {groupId , input, group_name, sent_from: userId}}, {withCredentials: true} );
+                const res = await axios.post(`${BASE_URL}sendInvite`, {data: {groupId , input, group_name, sent_from: userId}}, {withCredentials: true} );
                 setsuccessMsg(res.data);
                 setTimeout(() => {
                     setsuccessMsg("");

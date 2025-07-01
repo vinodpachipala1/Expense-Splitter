@@ -1,13 +1,13 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-
+import { BASE_URL } from "../path";
 const Home3 = (props) => {
 
     const navigate = useNavigate();
     const groups = props.group
     const [DeleterMsg, SetDeleteMsg] = useState("");
-
+    
     useEffect(() => {
         if (props.userId){
             props.getData();
@@ -17,7 +17,7 @@ const Home3 = (props) => {
     
     const ondelete= async (id) => {
         try{
-            const res = await axios.delete("https://expense-splitter-45tz.onrender.com/LeaveGroup", {data: { id: id }}, {withCredentials: true})
+            const res = await axios.delete(`${BASE_URL}/LeaveGroup`, {data: { id: id }}, {withCredentials: true})
             SetDeleteMsg(res.data);
             setTimeout(() => {
                 SetDeleteMsg("");
@@ -37,7 +37,7 @@ const Home3 = (props) => {
 
     return(
     <div className="groupcards">
-        {groups.length > 0  ? groups.map((group) =>
+        {!props.load ? groups.length > 0  ? groups.map((group) =>
             <div key={group.accepted_group_id} className="groupCard">
 
                 <div className="groupTop">
@@ -55,7 +55,7 @@ const Home3 = (props) => {
                 </div>
 
             </div>
-        ) : <p className="empty">You're not part of any groups yet.</p>}
+        ) : <p className="empty">You're not part of any groups yet.</p> : <div className="group-load-container"><div class="loader"></div></div>}
         {DeleterMsg && (<div className="delete-card">{DeleterMsg}</div>)}
     </div>
 

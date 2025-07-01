@@ -7,7 +7,9 @@ import Active from "../../components/GroupDetails/active";
 import { useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { BASE_URL } from "../../components/path";
 import styles from "./view-page.css";
+
 const AddGroupDetails = () => {
     const location = useLocation();
 
@@ -24,7 +26,7 @@ const AddGroupDetails = () => {
 
     const getMembers = async () => {
         try {
-            const res = await axios.post("https://expense-splitter-45tz.onrender.com/getGroupMembers", {groupId});
+            const res = await axios.post(`${BASE_URL}/getGroupMembers`, {groupId});
             SetGroupMembers(res.data.members);
         } catch (err) {
             console.log(err);

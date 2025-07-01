@@ -7,7 +7,7 @@ import { IoIosPhonePortrait } from "react-icons/io";
 import { RiLockPasswordLine } from "react-icons/ri";
 import { MdOutlineEmail } from "react-icons/md";
 import { IoEye } from "react-icons/io5";
-
+import { BASE_URL } from "../../components/path";
 const Register= () => {
     const navigate = useNavigate();
 
@@ -77,7 +77,7 @@ const Register= () => {
         e.preventDefault();
         if(verify()){
             try{
-                const res = await axios.post("https://expense-splitter-45tz.onrender.com/register", {reg : reg});
+                const res = await axios.post(`${BASE_URL}/register`, {reg : reg});
                 console.log(res.data);
                 setSuccessMsg(res.data.message);
                 setTimeout(() => {

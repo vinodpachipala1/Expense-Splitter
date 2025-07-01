@@ -1,28 +1,26 @@
-
 import axios from "axios";
 import { useState , useEffect} from "react";
 import { useLocation } from "react-router-dom";
-
+import { BASE_URL } from "../path";
 const Previous =  () => {
     const location = useLocation();
     const [SettledExpenses, SetSettledExpenses] = useState([]);
     const {groupId, userId} = location.state || {};
     const [view, SetView] = useState();
-
+    const [load, Setload] = useState(true)
     useEffect(() => {
         const settled = async () => {
             try{
-                const res = await axios.post("https://expense-splitter-45tz.onrender.com/getExpenseHistory", {groupId});
+                const res = await axios.post(`${BASE_URL}/getExpenseHistory`, {groupId});
                 SetSettledExpenses(res.data);
+                Setload(false);
             } catch (err){
-
             }
-
         }
         settled();
     }, [groupId])
     return(<div>
-        {SettledExpenses.length > 0 ? <div>
+        {!load ? SettledExpenses.length > 0 ? <div>
             {SettledExpenses.map((expense) => (
                 <div key={expense.id} className="expensesCard">
                     <div className="card-header">
@@ -91,7 +89,7 @@ const Previous =  () => {
                 </div>
             </div>
             ))}
-        </div> : <p className="empty">You have no expense history yet.</p>}
+        </div> : <p className="empty">You have no expense history yet.</p> : <div className="load-container"><div class="loader"></div></div>}
     </div>)
 }
 

@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
-
+import { BASE_URL } from "../path";
 const Active = (props) => {
   const location = useLocation();
   const [activeExpenses, SetExpenses] = useState([]);
@@ -10,6 +10,7 @@ const Active = (props) => {
   const [view, SetView] = useState();
   const [DeleterMsg, SetDeleteMsg] = useState("");
   const [successMsg, setsuccessMsg] = useState("");
+  const [load, Setload] = useState(true)
 
   useEffect(() => {
     active();
@@ -17,9 +18,10 @@ const Active = (props) => {
 
   const active = async () => {
     try {
-      const res = await axios.post("https://expense-splitter-45tz.onrender.com/getActiveExpenses", {
+      const res = await axios.post(`${BASE_URL}/getActiveExpenses`, {
         groupId,
       });
+      Setload(false);
       SetExpenses(res.data.expenses);
       const mem = res.data.members;
       SetMembers(mem);
@@ -30,7 +32,7 @@ const Active = (props) => {
 
   const deleteExpense = async (ExpenseId, type) => {
     try {
-      const res = await axios.delete("https://expense-splitter-45tz.onrender.com/deleteExpense", {
+      const res = await axios.delete(`${BASE_URL}/deleteExpense`, {
         data: { ExpenseId },
       });
       if(type === "delete")
@@ -52,7 +54,7 @@ const Active = (props) => {
     groupmembers
   ) => {
     try {
-      const res = await axios.post("https://expense-splitter-45tz.onrender.com/Settle", {
+      const res = await axios.post(`${BASE_URL}/Settle`, {
         expense,
         amount_per_person,
         groupmembers,
@@ -70,7 +72,7 @@ const Active = (props) => {
 
   return (
     <div>
-      {activeExpenses.length > 0 ? (
+      {!load ? activeExpenses.length > 0 ? (
         <div>
           {activeExpenses.map((expense) => (
             <div key={expense.id} className="expensesCard">
@@ -203,7 +205,8 @@ const Active = (props) => {
             </div>
           ))}
         </div>
-      ) : <p className="empty">You have no expenses yet.</p>}
+      ) : <p className="empty">You have no expenses yet.</p> : <div className="load-container"><div class="loader"></div></div>}
+      
       {DeleterMsg && (<div className="delete-card">{DeleterMsg}</div>)}
       {successMsg && (<div className="success-card">{successMsg}</div>)}
     </div>
