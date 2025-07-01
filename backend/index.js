@@ -12,7 +12,7 @@ const saltRounds = 10;
 
 dotenv.config();
 app.use(express.json())
-app.use(cors({origin: "https://expense-splitter-xi-two.vercel.app",  credentials: true}))
+app.use(cors({origin: ["http://localhost:3000","https://expense-splitter-xi-two.vercel.app"],  credentials: true}))
 
 
 const PgSession = pgSession(session);
