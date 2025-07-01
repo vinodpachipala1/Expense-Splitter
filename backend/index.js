@@ -7,6 +7,7 @@ import dotenv from "dotenv";
 import pgSession from "connect-pg-simple";
 
 const app = express();
+app.set("trust proxy", 1);
 const port = 3001;
 const saltRounds = 10;
 
