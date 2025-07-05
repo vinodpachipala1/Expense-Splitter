@@ -49,7 +49,7 @@ const Home2 = (props) => {
                 </div>
 
             </div>
-        ) : <p className="empty">You don’t have any groups at the moment. Create one to get started!</p> : <div className="group-load-container"><div class="loader"></div></div>}
+        ) : <p className="empty">You don’t have any groups at the moment. Create one to get started!</p> : <div className="group-load-container"><div className="loader"></div></div>}
 
         {DeleterMsg && (<div className="delete-card">{DeleterMsg}</div>)}
     </div>

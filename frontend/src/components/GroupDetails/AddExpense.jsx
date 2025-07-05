@@ -58,7 +58,7 @@ const AddExpenses = () => {
         e.preventDefault();
         if(verify()){
             try {
-                const res = await axios.post(`${BASE_URL}addNewExpense`, {newExpense});
+                const res = await axios.post(`${BASE_URL}/addNewExpense`, {newExpense});
                 setsuccessMsg(res.data);
                 setTimeout(() => {
                     setsuccessMsg("");

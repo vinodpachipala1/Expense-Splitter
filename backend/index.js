@@ -48,9 +48,9 @@ app.use(
     saveUninitialized: false,
     cookie: {
       maxAge: 1000 * 60 * 60 * 24, // 1 day
-      secure: true,
-      sameSite: "none",
-      httpOnly: true 
+      secure: true, //false-localhost //else-true
+      sameSite: "none",//lax-localhost // none
+      httpOnly: true
     },
   })
 );
@@ -202,6 +202,8 @@ app.post("/login", async (req, res) => {
             id: user.id,
             email: user.email,
             name: user.name,
+            username: user.username,
+
           };
 
           console.log("🟢 Before session.save:", req.session);

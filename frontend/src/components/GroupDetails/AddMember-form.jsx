@@ -22,7 +22,7 @@ const AddMember = (props) =>{
         
         try{
             if(input.trim().length != 0){
-                const res = await axios.post(`${BASE_URL}sendInvite`, {data: {groupId , input, group_name, sent_from: userId}}, {withCredentials: true} );
+                const res = await axios.post(`${BASE_URL}/sendInvite`, {data: {groupId , input, group_name, sent_from: userId}}, {withCredentials: true} );
                 setsuccessMsg(res.data);
                 setTimeout(() => {
                     setsuccessMsg("");
