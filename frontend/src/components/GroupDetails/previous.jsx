@@ -59,7 +59,7 @@ const Previous =  () => {
                                 ))}
                                 <tr className="total-row">
                                     <th className="total-label">Total:</th>
-                                    <td className="total-amount">₹{expense.amount}</td>
+                                    <td className="total-amount">₹{expense.members_count}</td>
                                 </tr>
                             </tbody>
                         </table>
